@@ -22,7 +22,10 @@ const Statistics = ({ left, middle, right, total }) => {
     </div>
   )
 }
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
+const GoodButton = ({ onClick }) => <button onClick={onClick}>good</button>
+const NeutralButton = ({ onClick }) => <button onClick={onClick}>neutral</button>
+const BadButton = ({ onClick }) => <button onClick={onClick}>bad</button>
+
 const App = () => {
   const [left, setLeft] = useState(0)
   const [right, setRight] = useState(0)
@@ -58,9 +61,9 @@ const App = () => {
       <div>
         
         <h1>give feedback</h1>
-        <Button onClick={handleLeftClick}  text='good' />
-        <Button onClick={handleMiddleClick} text= 'neutral'/>
-        <Button onClick={handleRightClick} text='bad' />
+        <GoodButton onClick={handleLeftClick} />
+        <NeutralButton onClick={handleMiddleClick} />
+        <BadButton onClick={handleRightClick} />
         <Statistics left={left} middle={middle} right={right} total={total} />
         
       </div>
