@@ -47,7 +47,7 @@ const App = () => {
 
     const updatedPerson = { ...person, number }
     axios
-      .put(`http://localhost:3001/persons/${person.id}`, updatedPerson)
+      .put(`http://localhost:3001/api/persons/${person.id}`, updatedPerson)
       .then(response => {
         setPersons(currentPersons =>
           currentPersons.map(currentPerson =>
@@ -81,7 +81,7 @@ const App = () => {
 
     const person = { name, number }
     axios
-      .post('http://localhost:3001/persons', person)
+      .post('http://localhost:3001/api/persons', person)
       .then(response => {
         setPersons(currentPersons => currentPersons.concat(response.data))
         setNotification({
@@ -102,7 +102,7 @@ const App = () => {
     }
 
     axios
-      .delete(`http://localhost:3001/persons/${person.id}`)
+      .delete(`http://localhost:3001/api/persons/${person.id}`)
       .then(() => {
         setPersons(currentPersons =>
           currentPersons.filter(currentPerson => currentPerson.id !== person.id)
@@ -120,7 +120,7 @@ const App = () => {
   const hook = () => {
   console.log('effect')
   axios
-    .get('http://localhost:3001/persons')
+    .get('http://localhost:3001/api/persons')
     .then(response => {
       console.log('promise fulfilled')
       setPersons(response.data)
