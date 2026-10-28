@@ -1,0 +1,31 @@
+.person {
+  color: grey;
+  padding-top: 5px;
+  font-size: 15px;
+}
+
+
+h2 {
+  color: green;
+  font-family: "Comic Sans MS", cursive;
+}
+li {
+  color: grey;
+  padding-top: 3px;
+  font-size: 15px;
+}
+.notification {
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.notification.error {
+  color: red;
+  background: lightgrey;
+}
+.notification.success {
+  color: green;
+  background: #e8f5e9;
+}
