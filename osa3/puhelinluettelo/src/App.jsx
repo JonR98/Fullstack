@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-const baseUrl = '/api/persons'
 import './index.css'
 import Notification from './components/Notification'
+const baseUrl = '/api/persons'
 const App = () => {
     const toggleImportanceOf = id => {
     const person = persons.find(n => n.id === id)
@@ -48,7 +48,7 @@ const App = () => {
 
     const updatedPerson = { ...person, number }
     axios
-      .put(`http://localhost:3001/api/persons/${person.id}`, updatedPerson)
+      .put(`${baseUrl}/${person.id}`, updatedPerson)
       .then(response => {
         setPersons(currentPersons =>
           currentPersons.map(currentPerson =>
@@ -82,7 +82,7 @@ const App = () => {
 
     const person = { name, number }
     axios
-      .post('http://localhost:3001/api/persons', person)
+      .post(baseUrl, person)
       .then(response => {
         setPersons(currentPersons => currentPersons.concat(response.data))
         setNotification({
@@ -103,7 +103,7 @@ const App = () => {
     }
 
     axios
-      .delete(`http://localhost:3001/api/persons/${person.id}`)
+      .delete(`${baseUrl}/${person.id}`)
       .then(() => {
         setPersons(currentPersons =>
           currentPersons.filter(currentPerson => currentPerson.id !== person.id)
@@ -121,7 +121,7 @@ const App = () => {
   const hook = () => {
   console.log('effect')
   axios
-    .get('http://localhost:3001/api/persons')
+    .get(baseUrl)
     .then(response => {
       console.log('promise fulfilled')
       setPersons(response.data)
