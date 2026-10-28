@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import './index.css'
 import Notification from './components/Notification'
+const baseUrl = '/api/notes'
 const App = () => {
     const toggleImportanceOf = id => {
     const person = persons.find(n => n.id === id)
