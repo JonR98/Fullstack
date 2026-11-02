@@ -26,18 +26,18 @@ const PeopleSchema = new mongoose.Schema({
 const People = mongoose.model('People', PeopleSchema)
 
 const addPerson = async () => {
-  
-    mongoose.connect(url, { family: 4 })
-    if (args.length === 1) {
-      console.log('Phonebook:')
-      const people = await People.find({})
-      people.forEach(person => console.log(`${person.name} ${person.number}`))
-    } else {
-      new People({ name, number }).save()
-      console.log(`added ${name} number ${number} to phonebook`)
-    }
-    mongoose.connection.close()
-  
+
+  mongoose.connect(url, { family: 4 })
+  if (args.length === 1) {
+    console.log('Phonebook:')
+    const people = await People.find({})
+    people.forEach(person => console.log(`${person.name} ${person.number}`))
+  } else {
+    new People({ name, number }).save()
+    console.log(`added ${name} number ${number} to phonebook`)
+  }
+  mongoose.connection.close()
+
 }
 
 addPerson()

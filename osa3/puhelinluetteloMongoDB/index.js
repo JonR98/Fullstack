@@ -21,18 +21,18 @@ mongoose.connect(process.env.MONGODB_URI)
     console.error('MongoDB connection failed:', error.message)
   })
 
-  const errorHandler = (error, request, response, next) => {
+const errorHandler = (error,request,response,next) => {
   console.error(error.message)
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })  
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
-  
-  
-  
+
+
+
   response.status(500).json({ error: 'internal server error' })
 
 }
@@ -58,7 +58,7 @@ app.get('/api/persons', async (request, response, next) => {
   }
 })
 app.put('/api/persons/:id', (request, response, next) => {
-  const { name, number } = request.body
+
 
   People.findById(request.params.id)
     .then(person => {
@@ -91,7 +91,7 @@ app.post('/api/persons', async (request, response, next) => {
   }
 })
 
-  
+
 app.get('/api/persons/:id', async (request, response, next) => {
   try {
     const person = await People.findById(request.params.id)
@@ -142,10 +142,10 @@ app.get('/info', async (request, response, next) => {
     const count = await People.countDocuments()
     const lastRequestText = lastRequest
       ? `${lastRequest.method} — ${new Intl.DateTimeFormat('en-US', {
-          dateStyle: 'full',
-          timeStyle: 'long',
-          timeZone: 'Europe/Helsinki'
-        }).format(lastRequest.time)}`
+        dateStyle: 'full',
+        timeStyle: 'long',
+        timeZone: 'Europe/Helsinki'
+      }).format(lastRequest.time)}`
       : 'No GET or POST requests yet'
 
     response.send(`
