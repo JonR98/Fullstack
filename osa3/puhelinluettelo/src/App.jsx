@@ -71,6 +71,14 @@ const App = () => {
     event.preventDefault()
     const name = newName.trim()
     const number = newNumber.trim()
+
+    if (name.length < 3) {
+      setNotification({
+        message: 'Name must be at least 3 characters long',
+        type: 'error'
+      })
+      return
+    }
     const existingPerson = persons.find(
       person => person.name.toLowerCase() === name.toLowerCase()
     )
