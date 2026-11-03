@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6aea59359178d24a326491c5
+Content-Type: application/json
+
+{
+    "author": "Jari Viitanen",
+    "title": "Liikunta ja terveys",
+    "url": "https://liikunta-ja-terveys.com",
+    "likes": 10
+}
