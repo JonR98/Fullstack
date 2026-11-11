@@ -1,0 +1,71 @@
+.person {
+  color: grey;
+  padding-top: 5px;
+  font-size: 15px;
+}
+
+
+h2 {
+  color: green;
+  font-family: "Comic Sans MS", cursive;
+}
+
+.login-section {
+  margin-bottom: 24px;
+}
+
+.login-form {
+  display: grid;
+  gap: 12px;
+  max-width: 320px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 5px;
+}
+
+.login-form input {
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 6px 8px;
+}
+
+.login-form button,
+.login-status button {
+  justify-self: start;
+  min-height: 34px;
+  padding: 5px 12px;
+}
+
+.login-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.login-error {
+  color: #b00020;
+}
+
+li {
+  color: black;
+  padding-top: 3px;
+  font-size: 15px;
+}
+.notification {
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.notification.error {
+  color: red;
+  background: lightgrey;
+}
+.notification.success {
+  color: green;
+  background: #e8f5e9;
+}

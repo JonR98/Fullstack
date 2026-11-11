@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1794398694396" clover="3.2.0">
+  <project timestamp="1794398694396" name="All files">
+    <metrics statements="16" coveredstatements="15" conditionals="12" coveredconditionals="10" methods="7" coveredmethods="6" elements="35" coveredelements="31" complexity="0" loc="16" ncloc="16" packages="1" files="3" classes="3"/>
+    <file name="Blog.jsx" path="C:\Users\jonir\part1\osa5\frontend\src\components\Blog.jsx">
+      <metrics statements="7" coveredstatements="6" conditionals="8" coveredconditionals="6" methods="4" coveredmethods="3"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="4" type="stmt"/>
+      <line num="5" count="4" type="stmt"/>
+      <line num="12" count="4" type="stmt"/>
+      <line num="18" count="2" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="37" count="0" type="stmt"/>
+    </file>
+    <file name="blogform.jsx" path="C:\Users\jonir\part1\osa5\frontend\src\components\blogform.jsx">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="46" type="stmt"/>
+    </file>
+    <file name="togglable.jsx" path="C:\Users\jonir\part1\osa5\frontend\src\components\togglable.jsx">
+      <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="7" type="stmt"/>
+      <line num="6" count="7" type="cond" truecount="2" falsecount="0"/>
+      <line num="7" count="7" type="cond" truecount="2" falsecount="0"/>
+      <line num="9" count="7" type="stmt"/>
+      <line num="10" count="3" type="stmt"/>
+      <line num="13" count="7" type="stmt"/>
+    </file>
+  </project>
+</coverage>

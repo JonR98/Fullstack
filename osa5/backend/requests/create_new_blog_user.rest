@@ -1,0 +1,8 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpYWNjb3VudCIsImlkIjoiNmFlYTUyZmMzOGY3ZjU1M2E4Zjg0NjQ1IiwiaWF0IjoxNzkzNzQxNTg4LCJleHAiOjE3OTM3NDUxODh9.xJnwOaXe7njfSPqim3rDhJlyiB8Z-oJ7VDDuLoJZR0I     
+{
+    "username": "jonirr",
+    "name": "Joni Repo",
+    "password": "salainen"
+}
