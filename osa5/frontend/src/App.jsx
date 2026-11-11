@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import Blog, { BlogDetails } from './components/blog'
 import BlogForm from './components/blogform'
 import LoginForm from './components/loginform'
 import blogService from './services/blogs'
@@ -13,10 +15,28 @@ const NotificationMessage = ({ message, type }) => {
   return <div className={`notification ${type}`}>{message}</div>
 }
 
+const BlogDetailPage = ({ blogs, user, onLike, onRemove }) => {
+  const { id: blogId } = useParams()
+  const blog = blogs.find(currentBlog => currentBlog.id === blogId)
+
+  return (
+    <main>
+      {blog ? (
+        <BlogDetails
+          blog={blog}
+          onLike={user ? onLike : null}
+          onRemove={user?.username === blog.user?.username ? onRemove : null}
+        />
+      ) : (
+        <p>Blog not found</p>
+      )}
+    </main>
+  )
+}
+
 const App = () => {
-  const [loginVisible, setLoginVisible] = useState(false)
+  const navigate = useNavigate()
   const [blogs, setBlogs] = useState([])
-  const [blogFormVisible, setBlogFormVisible] = useState(false)
   const [notification, setNotification] = useState(null)
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
@@ -88,11 +108,11 @@ const App = () => {
       setNewTitle('')
       setNewAuthor('')
       setNewUrl('')
-      setBlogFormVisible(false)
       setNotification({
         message: `${createdBlog.title} added to the blog list`,
         type: 'success',
       })
+      navigate('/')
     } catch {
       setNotification({ message: 'Could not create the blog', type: 'error' })
     }
@@ -132,83 +152,99 @@ const App = () => {
     }
   }
 
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
-          <div>
-            <button type="button" onClick={() => setLoginVisible(false)}>
-              cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-  if (!user) {
-    return (
-      <main className="login-section">
-        <h1>Blogs</h1>
-        <h2>Log in</h2>
-        <NotificationMessage {...notification} />
-        {loginForm()}
-      </main>
-    )
-  }
+  const sortedBlogs = [...blogs].sort(
+    (firstBlog, secondBlog) => Number(secondBlog.likes || 0) - Number(firstBlog.likes || 0)
+  )
 
   return (
-    <main>
-
-      <NotificationMessage {...notification} />
-      <div className="login-status">
-        <span>{user.name || user.username} logged in</span>
-        <button type="button" onClick={handleLogout}>logout</button>
+    <div>
+      <nav style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 16, background: '#176b67' }}>
+        <Link style={{ color: 'white' }} to="/">blogs</Link>
+        {user && <Link style={{ color: 'white' }} to="/blogs/new">create new blog</Link>}
+        {user ? (
+          <button type="button" onClick={handleLogout} style={{ marginLeft: 'auto' }}>logout</button>
+        ) : (
+          <Link style={{ color: 'white', marginLeft: 'auto' }} to="/login">login</Link>
+        )}
+      </nav>
+      <div style={{ maxWidth: 960, margin: '0 auto', padding: '24px 16px' }}>
+        <NotificationMessage {...notification} />
+        <Routes>
+          <Route path="/" element={(
+            <main>
+              {user && (
+                <div className="login-status">
+                  <span>{user.name || user.username} logged in</span>
+                </div>
+              )}
+              <h2>Blogs</h2>
+              <TableContainer component={Paper}>
+                <Table aria-label="Blogs">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Title</TableCell>
+                      <TableCell>Author</TableCell>
+                      <TableCell align="right">Likes</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {sortedBlogs.map(blog => (
+                      <Blog key={blog.id} blog={blog} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </main>
+          )} />
+          <Route path="/blogs/:id" element={(
+            <BlogDetailPage
+              blogs={blogs}
+              user={user}
+              onLike={likeBlog}
+              onRemove={removeBlog}
+            />
+          )} />
+          <Route path="/blogs/new" element={(
+            user ? (
+              <main>
+                <h2>Create a blog</h2>
+                <BlogForm
+                  title={newTitle}
+                  author={newAuthor}
+                  url={newUrl}
+                  handleTitleChange={({ target }) => setNewTitle(target.value)}
+                  handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+                  handleUrlChange={({ target }) => setNewUrl(target.value)}
+                  handleSubmit={addBlog}
+                />
+              </main>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          )} />
+          <Route path="/login" element={(
+            <main className="login-section">
+              <h1>Blogs</h1>
+              {user ? (
+                <div className="login-status">
+                  <span>{user.name || user.username} logged in</span>
+                </div>
+              ) : (
+                <LoginForm
+                  username={username}
+                  password={password}
+                  handleUsernameChange={({ target }) => setUsername(target.value)}
+                  handlePasswordChange={({ target }) => setPassword(target.value)}
+                  handleSubmit={handleLogin}
+                />
+              )}
+            </main>
+          )} />
+          <Route path="/blogs" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
-      {blogFormVisible ? (
-        <div>
-          <BlogForm
-            title={newTitle}
-            author={newAuthor}
-            url={newUrl}
-            handleTitleChange={({ target }) => setNewTitle(target.value)}
-            handleAuthorChange={({ target }) => setNewAuthor(target.value)}
-            handleUrlChange={({ target }) => setNewUrl(target.value)}
-            handleSubmit={addBlog}
-          />
-          <button type="button" onClick={() => setBlogFormVisible(false)}>
-            cancel
-          </button>
-        </div>
-      ) : (
-        <button type="button" onClick={() => setBlogFormVisible(true)}>
-          create new blog
-        </button>
-      )}
-      <h2>Blogs</h2>
-      <ul>
-        {blogs.map(blog => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            onLike={likeBlog}
-            onRemove={blog.user?.username === user.username ? removeBlog : null}
-          />
-        ))}
-      </ul>
-    </main>
+    </div>
   )
 }
 

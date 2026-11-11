@@ -104,6 +104,34 @@ test('blog without title is not added', async () => {
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
+test('a blog cannot be updated without authentication', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send({ likes: blogToUpdate.likes + 1 })
+    .expect(401)
+})
+
+test('an authenticated user can update a blog', async () => {
+  const firstUser = await User.findOne().sort({ _id: 1 })
+  const token = jwt.sign(
+    { username: firstUser.username, id: firstUser._id.toString() },
+    process.env.SECRET
+  )
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .set('Authorization', `Bearer ${token}`)
+    .send({ likes: blogToUpdate.likes + 1 })
+    .expect(200)
+
+  assert.strictEqual(response.body.likes, blogToUpdate.likes + 1)
+})
+
 test('a specific blog can be viewed', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToView = blogsAtStart[0]

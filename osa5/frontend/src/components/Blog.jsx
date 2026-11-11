@@ -1,47 +1,60 @@
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
-const Blog = ({ blog, onLike, onRemove }) => {
-  const [detailsVisible, setDetailsVisible] = useState(false)
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-  return (
-    <div style={blogStyle}>
-      <div>
-        {blog.title}{' '}
-        <button
-          type="button"
-          onClick={() => setDetailsVisible(!detailsVisible)}
-        >
-          {detailsVisible ? 'hide' : 'view'}
-        </button>
-      </div>
-      {detailsVisible && (
-        <div>
-          <div>Author: {blog.author}</div>
-          <div>
-            URL: <a href={blog.url}>{blog.url}</a>
-          </div>
-          <div>
-            Likes: {blog.likes}{' '}
-            <button type="button" onClick={() => onLike(blog)}>
-              like
-            </button>
-          </div>
-          <div>Added by: {blog.user?.name || blog.user?.username}</div>
-          {onRemove && (
-            <button type="button" onClick={() => onRemove(blog)}>
-              remove
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
+const Blog = ({ blog }) => (
+  <TableRow>
+    <TableCell>
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+    </TableCell>
+    <TableCell>{blog.author || 'Unknown author'}</TableCell>
+    <TableCell align="right">{blog.likes || 0}</TableCell>
+  </TableRow>
+)
+
+export const BlogDetails = ({ blog, onLike, onRemove }) => (
+  <div>
+    <h2>{blog.title}</h2>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>Author: {blog.author}</TableCell>
+            <TableCell />
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              URL: <a href={blog.url}>{blog.url}</a>
+            </TableCell>
+            <TableCell />
+          </TableRow>
+          <TableRow>
+            <TableCell>Likes: {blog.likes}</TableCell>
+            <TableCell>
+              {onLike && (
+                <button type="button" onClick={() => onLike(blog)}>
+                  like
+                </button>
+              )}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Added by: {blog.user?.name || blog.user?.username}</TableCell>
+            <TableCell>
+              {onRemove && (
+                <button type="button" onClick={() => onRemove(blog)}>
+                  remove
+                </button>
+              )}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>
+)
 
 export default Blog
